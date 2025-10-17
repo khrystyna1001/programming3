@@ -18,8 +18,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf import settings
+from blog.views import index_page, blogs_page, user_page, blog_page
 
 urlpatterns = [
+    path("", index_page),
+    path("blogs/", blogs_page),
+    path("blogs/<id>/", blog_page),
+    path("profile/", user_page),
     path("admin/", admin.site.urls),
 ]
 
