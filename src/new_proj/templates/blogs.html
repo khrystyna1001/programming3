@@ -1,0 +1,21 @@
+{% extends "index.html" %}
+  {% block content %}
+    <h2 class='m-2'>Blogs</h2>
+    <ul>
+      {% for blog in blogs %}
+        <div class="card text-center m-5">
+          <div class="card-header">
+            {{ blog.title }}
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{ blog.updated_at }}</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <a href="/blogs/{{blog.id}}" class="btn btn-primary">View More</a>
+          </div>
+          <div class="card-footer text-muted">
+            {{ blog.created_at }}
+          </div>
+        </div>
+      {% endfor %}
+    </ul>
+{% endblock %}

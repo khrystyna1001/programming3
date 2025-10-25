@@ -11,8 +11,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-from new_proj.environment import env
+from environ import Env
 
+env = Env()
+env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-@rbyq1tokvtk2-u-=h0v4$6e#9nrk)2ve%n2u_e)nnel62y)1a"
+SECRET_KEY = env.str("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = env.bool('DEBUG', default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 
 # Application definition
@@ -90,12 +92,12 @@ WSGI_APPLICATION = "new_proj.wsgi.application"
 
 DATABASES = {
     "default": {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db',
-        'USER': 'user',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        "ENGINE": env.str("SQL_ENGINE", default="django.db.backends.sqlite3"),
+        "NAME": env.str("SQL_DATABASE", default=BASE_DIR / "db.sqlite3"),
+        "USER": env.str("SQL_USER", default="user"),
+        "PASSWORD": env.str("SQL_PASSWORD", default="password"),
+        "HOST": env.str("SQL_HOST", default="localhost"),
+        "PORT": env.str("SQL_PORT", default="5432"),
     }
 }
 
