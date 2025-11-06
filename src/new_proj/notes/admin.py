@@ -1,8 +1,8 @@
 from django.contrib import admin
-from blog.models import Blog
+from notes.models import Notes
 
 # Register your models here.
-class BlogAdmin(admin.ModelAdmin):
+class NotesAdmin(admin.ModelAdmin):
     list_display = [
         "title",
         "title_len",
@@ -18,4 +18,4 @@ class BlogAdmin(admin.ModelAdmin):
         for item in qs:
             print(item)
 
-admin.site.register(Blog, BlogAdmin)
+admin.site.register(Notes, NotesAdmin)

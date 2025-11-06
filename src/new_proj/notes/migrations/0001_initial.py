@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="Blog",
+            name="Notes",
             fields=[
                 (
                     "id",
@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                 (
                     "title",
                     models.TextField(
-                        db_comment="title of the blog", verbose_name="Title of blog"
+                        db_comment="title of the note", verbose_name="Title of note"
                     ),
                 ),
             ],

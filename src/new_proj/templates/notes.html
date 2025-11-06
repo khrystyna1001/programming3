@@ -1,19 +1,19 @@
 {% extends "index.html" %}
   {% block content %}
-    <h2 class='m-2'>Blogs</h2>
+    <h2 class='m-2'>Notes</h2>
     <ul>
-      {% for blog in blogs %}
+      {% for note in notes %}
         <div class="card text-center m-5">
           <div class="card-header">
-            {{ blog.title }}
+            {{ note.title }}
           </div>
           <div class="card-body">
-            <h5 class="card-title">{{ blog.updated_at }}</h5>
+            <h5 class="card-title">{{ note.updated_at }}</h5>
             <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="/blogs/{{blog.id}}" class="btn btn-primary">View More</a>
+            <a href="/notes/{{note.id}}" class="btn btn-primary">View More</a>
           </div>
           <div class="card-footer text-muted">
-            {{ blog.created_at }}
+            {{ note.created_at }}
           </div>
         </div>
       {% endfor %}
