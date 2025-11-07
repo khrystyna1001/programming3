@@ -2,8 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from notes.models import Notes
 
 # Create your views here.
-def index_page(request):
-    return render(request, "index.html")
+def home_page(request):
+    return render(request, "home.html")
 
 def user_page(request):
     return render(request, "profile.html")
