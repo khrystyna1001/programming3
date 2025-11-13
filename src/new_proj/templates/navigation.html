@@ -1,26 +1,98 @@
 {% extends "index.html" %}
-  {% block headercontent %}
-  <nav class="navbar navbar-light bg-light align-content-start">
-    <a class="navbar-brand m-2" href="#">Content Manager</a>
-    <button class="navbar-toggler m-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/notes/">My Notes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/profile/">Write A Note</a>
-        </li>
-      </ul>
-      <form class="form-inline right">
-        <input class="form-control mx-4 w-25" type="search" placeholder="Search">
-        <button class="btn btn-outline-success my-2 mx-4" type="submit">Search</button>
-      </form>
+
+{% block headercontent %}
+<div class="d-flex" id="wrapper">
+    <div class="bg-dark border-end" id="sidebar-wrapper">
+        <div class="sidebar-heading bg-dark text-light p-3 border-bottom">
+            <h4 class="mb-0">Note Taker App</h4>
+        </div>
+        <div class="list-group list-group-flush">
+            <a href="/" class="list-group-item list-group-item-action bg-dark text-light p-3 active" aria-current="true">
+                <i class="bi bi-house-door-fill me-2"></i>Home
+            </a>
+            <a href="/notes/" class="list-group-item list-group-item-action bg-dark text-light p-3">
+                <i class="bi bi-journal-text me-2"></i>My Notes
+            </a>
+            <a href="/profile/" class="list-group-item list-group-item-action bg-dark text-light p-3">
+                <i class="bi bi-pencil-square me-2"></i>Write A Note
+            </a>
+            <a href="#!" class="list-group-item list-group-item-action bg-dark text-secondary p-3">
+                <i class="bi bi-gear-fill me-2"></i>Settings
+            </a>
+        </div>
     </div>
-  </nav>
-  {% endblock %}
+    <div id="page-content-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <button class="btn btn-primary" id="sidebarToggle">
+                <i class="bi bi-list"></i> Toggle Menu
+            </button>
+
+            <div class="container-fluid d-flex justify-content-end">
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+    {% endblock %}
+
+    {% block content %}
+        <div class="container-fluid py-4">
+            <h1 class="mt-4">Welcome to the App</h1>
+            <p>This is where your notes and application content will be displayed.</p>
+        </div>
+    </div>
+    </div>
+
+<style>
+    #sidebar-wrapper {
+        min-height: 100vh;
+        margin-left: -15rem;
+        transition: margin 0.25s ease-out;
+    }
+
+    #sidebar-wrapper .list-group {
+        width: 15rem;
+    }
+
+    #page-content-wrapper {
+        min-width: 100vw;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: 0;
+    }
+
+    @media (min-width: 768px) {
+        #sidebar-wrapper {
+            margin-left: 0;
+        }
+
+        #page-content-wrapper {
+            min-width: 0;
+            width: 100%;
+        }
+
+        #wrapper.toggled #sidebar-wrapper {
+            margin-left: -15rem;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var sidebarToggle = document.getElementById('sidebarToggle');
+        var wrapper = document.getElementById('wrapper');
+        
+        if (sidebarToggle && wrapper) {
+            sidebarToggle.addEventListener('click', function() {
+                wrapper.classList.toggle('toggled');
+            });
+        }
+        
+        if (window.innerWidth >= 768) {
+            wrapper.classList.toggle('toggled');
+        }
+    });
+</script>
+{% endblock %}
