@@ -1,4 +1,4 @@
-{% extends "navigation.html" %}
+{% extends "authorized.html" %}
 {% load static %}
 {% block content %}
   <div class="card m-2">
@@ -12,8 +12,10 @@
           <button class="addTextButton" onclick="handleAddText()">+ Text</button>
           <button>+ Image</button>
         </div>
+        <br />
         <footer class="blockquote-footer">Created At <cite title="Created At">[{{ note.created_at }}]</cite></footer>
       </blockquote>
+
     </div>
   </div>
 {% endblock %}

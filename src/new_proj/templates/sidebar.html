@@ -1,0 +1,52 @@
+{% load static %}
+    <div class="d-flex" id="wrapper">
+        {% url 'notes' as notes %}
+        {% url 'profile' as profile %}
+        <!-- Sidebar-->
+        <div class="border-end bg-white" id="sidebar-wrapper">
+            <div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div>
+            <div class="list-group list-group-flush">
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{{ notes }}">Dashboard</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3">Make Note</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3">Overview</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{{ profile }}">Profile</a>
+            </div>
+        </div>
+        
+    </div>
+    
+
+{% comment %} <style>
+    #sidebar-wrapper {
+        min-height: 100vh;
+        margin-left: -15rem;
+        transition: margin 0.25s ease-out;
+    }
+
+    #sidebar-wrapper .list-group {
+        width: 15rem;
+    }
+
+    #page-content-wrapper {
+        min-width: 100vw;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: 0;
+    }
+
+    @media (min-width: 768px) {
+        #sidebar-wrapper {
+            margin-left: 0;
+        }
+
+        #page-content-wrapper {
+            min-width: 0;
+            width: 100%;
+        }
+
+        #wrapper.toggled #sidebar-wrapper {
+            margin-left: -15rem;
+        }
+    }
+</style> {% endcomment %}

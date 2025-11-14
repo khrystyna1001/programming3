@@ -1,50 +1,31 @@
-{% extends "index.html" %}
 
-{% block headercontent %}
-<div class="d-flex" id="wrapper">
-    <div class="bg-dark border-end" id="sidebar-wrapper">
-        <div class="sidebar-heading bg-dark text-light p-3 border-bottom">
-            <h4 class="mb-0">Note Taker App</h4>
-        </div>
-        <div class="list-group list-group-flush">
-            <a href="/" class="list-group-item list-group-item-action bg-dark text-light p-3 active" aria-current="true">
-                <i class="bi bi-house-door-fill me-2"></i>Home
-            </a>
-            <a href="/notes/" class="list-group-item list-group-item-action bg-dark text-light p-3">
-                <i class="bi bi-journal-text me-2"></i>My Notes
-            </a>
-            <a href="/profile/" class="list-group-item list-group-item-action bg-dark text-light p-3">
-                <i class="bi bi-pencil-square me-2"></i>Write A Note
-            </a>
-            <a href="#!" class="list-group-item list-group-item-action bg-dark text-secondary p-3">
-                <i class="bi bi-gear-fill me-2"></i>Settings
-            </a>
-        </div>
-    </div>
-    <div id="page-content-wrapper">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <button class="btn btn-primary" id="sidebarToggle">
-                <i class="bi bi-list"></i> Toggle Menu
-            </button>
-
-            <div class="container-fluid d-flex justify-content-end">
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-            </div>
-        </nav>
-    {% endblock %}
-
-    {% block content %}
-        <div class="container-fluid py-4">
-            <h1 class="mt-4">Welcome to the App</h1>
-            <p>This is where your notes and application content will be displayed.</p>
+<!-- Top navigation-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="container-fluid">
+        <button class="btn btn-primary" id="sidebarToggle">Toggle Menu</button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                <li class="nav-item active"><a class="nav-link" href="#!">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">Link</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#!">Action</a>
+                        <a class="dropdown-item" href="#!">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#!">Something else here</a>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
-    </div>
+</nav>
+        
 
-<style>
+    
+
+{% comment %} <style>
     #sidebar-wrapper {
         min-height: 100vh;
         margin-left: -15rem;
@@ -77,22 +58,4 @@
             margin-left: -15rem;
         }
     }
-</style>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var sidebarToggle = document.getElementById('sidebarToggle');
-        var wrapper = document.getElementById('wrapper');
-        
-        if (sidebarToggle && wrapper) {
-            sidebarToggle.addEventListener('click', function() {
-                wrapper.classList.toggle('toggled');
-            });
-        }
-        
-        if (window.innerWidth >= 768) {
-            wrapper.classList.toggle('toggled');
-        }
-    });
-</script>
-{% endblock %}
+</style> {% endcomment %}

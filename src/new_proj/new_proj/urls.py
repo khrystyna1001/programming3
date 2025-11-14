@@ -19,15 +19,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from notes.views import notes_page, note_page, user_page, home_page
-from app.views import login
 
 urlpatterns = [
-    path("", home_page),
-    path("notes/", notes_page),
-    path("notes/<id>/", note_page),
-    path("profile/", user_page),
+    path("", home_page, name='home'),
+    path("notes/", notes_page, name='notes'),
+    path("notes/<id>/", note_page, name='note'),
+    path("profile/", user_page, name='profile'),
     path("admin/", admin.site.urls),
-    path("login_page/", login)
+    path("", include("django.contrib.auth.urls"))
 ]
 
 if settings.DEBUG and settings.INSTALLED_APPS:
