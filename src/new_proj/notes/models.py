@@ -10,3 +10,12 @@ class Notes(models.Model):
 
     def __str__(self):
         return self.title
+
+class TextBlock(models.Model):
+    note = models.ForeignKey(Notes, on_delete=models.CASCADE, related_name='text_blocks')
+    content = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['created_at']

@@ -1,24 +1,52 @@
 {% extends "authorized.html" %}
 {% load static %}
-{% block content %}
-  <div class="card m-2">
-    <div class="card-header">
-      {{ note.title }}
-    </div>
-    <div class="card-body">
-      <blockquote class="blockquote mb-0">
-        <p>{{ note.content }}</p>
-        <div>
-          <button class="addTextButton" onclick="handleAddText()">+ Text</button>
-          <button>+ Image</button>
-        </div>
-        <br />
-        <footer class="blockquote-footer">Created At <cite title="Created At">[{{ note.created_at }}]</cite></footer>
-      </blockquote>
 
+
+{% block content %}
+<div class="card-header">
+  {{ note.title }}
+</div>
+<div class="card-body">
+  <blockquote class="blockquote mb-0">
+    <p>{{ note.content }}</p>
+    
+    <div class="text-blocks-container mt-3">
+      {% for block in text_blocks %}
+      <div class="text-block mb-2 p-2 border rounded"
+           contenteditable="true"
+           hx-post="{% url 'update_text_block' block.id %}"
+           hx-trigger="blur, keyup delay:500ms"
+           hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+           hx-include="this"
+           hx-swap="outerHTML"
+           name="content">{{ block.content|safe }}</div>
+      {% endfor %}
     </div>
-  </div>
+    
+    <div class="mt-3">
+      <button class="btn btn-outline-secondary"
+              hx-post="{% url 'add_text_block' note.id %}"
+              hx-target=".text-blocks-container"
+              hx-swap="beforeend">+ Text</button>
+      <button class="btn btn-outline-secondary">+ Image</button>
+    </div>
+    
+    <br />
+    <footer class="blockquote-footer">
+      Created At <cite title="Created At">[{{ note.created_at }}]</cite>
+    </footer>
+  </blockquote>
+</div>
 {% endblock %}
+
 {% block scripts %}
-  <script src="{% static 'scripts/note.js' %}"></script>
+<script src="https://unpkg.com/htmx.org@1.9.6"></script>
+<script>
+  document.body.addEventListener('htmx:afterRequest', function(evt) {
+    const emptyBlocks = document.querySelectorAll('.text-block:empty, .text-block:has(br:only-child)');
+    if (emptyBlocks.length > 0) {
+      emptyBlocks[emptyBlocks.length - 1].focus();
+    }
+  });
+</script>
 {% endblock %}

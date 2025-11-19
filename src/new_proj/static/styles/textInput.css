@@ -1,0 +1,28 @@
+.text-block {
+    position: relative;
+    min-height: 30px;
+    transition: background-color 0.2s;
+}
+
+.text-block:focus-within {
+    background-color: #f8f9fa;
+    outline: none;
+}
+
+.add-button {
+    opacity: 0;
+    transition: opacity 0.2s;
+    position: absolute;
+    left: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.text-block:hover .add-button,
+.add-button:focus {
+    opacity: 1;
+}
+
+.text-block:focus-within .add-button {
+    opacity: 1;
+}

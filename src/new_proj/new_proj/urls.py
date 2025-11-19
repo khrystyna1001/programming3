@@ -18,13 +18,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
-from notes.views import notes_page, note_page, user_page, home_page
+from notes.views import user_page, home_page, note_content, add_text_block, update_text_block, delete_text_block
 
 urlpatterns = [
     path("", home_page, name='home'),
-    path("notes/", notes_page, name='notes'),
-    path("notes/<id>/", note_page, name='note'),
     path("profile/", user_page, name='profile'),
+
+    path('notes/<int:note_id>/', note_content, name='note_content'),
+    path('block/add/<int:note_id>/', add_text_block, name='add_text_block'),
+    path('block/update/<int:block_id>/', update_text_block, name='update_text_block'),
+    path('block/delete/<int:block_id>/', delete_text_block, name='delete_text_block'),
+
     path("admin/", admin.site.urls),
     path("", include("django.contrib.auth.urls"))
 ]
