@@ -26,3 +26,46 @@
 .text-block:focus-within .add-button {
     opacity: 1;
 }
+
+.block-wrapper {
+    position: relative;
+    display: flex; 
+    align-items: flex-end;
+    margin-bottom: 8px;
+    padding-left: 30px;
+}
+
+.text-block {
+    flex-grow: 1;
+    padding: 4px 0;
+    outline: none; 
+    min-height: 1.2em;
+}
+
+.delete-btn {
+    position: absolute;
+    left: 0; 
+    top: 50%;
+    transform: translateY(-50%);
+    
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 4px;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.delete-btn:hover {
+    color: #dc3545;
+}
+
+.block-wrapper:hover .delete-btn {
+    opacity: 1;
+}
+
+.text-block:focus-within + .delete-btn {
+    opacity: 1;
+}

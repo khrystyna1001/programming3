@@ -1,6 +1,6 @@
 {% load static %}
     <div class="d-flex" id="wrapper">
-        {% url 'notes' as notes %}
+        {% url 'notes_page' as notes %}
         {% url 'profile' as profile %}
         <!-- Sidebar-->
         <div class="border-end bg-white" id="sidebar-wrapper">
@@ -14,39 +14,3 @@
         </div>
         
     </div>
-    
-
-{% comment %} <style>
-    #sidebar-wrapper {
-        min-height: 100vh;
-        margin-left: -15rem;
-        transition: margin 0.25s ease-out;
-    }
-
-    #sidebar-wrapper .list-group {
-        width: 15rem;
-    }
-
-    #page-content-wrapper {
-        min-width: 100vw;
-    }
-
-    #wrapper.toggled #sidebar-wrapper {
-        margin-left: 0;
-    }
-
-    @media (min-width: 768px) {
-        #sidebar-wrapper {
-            margin-left: 0;
-        }
-
-        #page-content-wrapper {
-            min-width: 0;
-            width: 100%;
-        }
-
-        #wrapper.toggled #sidebar-wrapper {
-            margin-left: -15rem;
-        }
-    }
-</style> {% endcomment %}

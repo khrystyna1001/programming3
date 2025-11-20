@@ -3,6 +3,7 @@ from notes.models import Notes
 
 # Register your models here.
 class NotesAdmin(admin.ModelAdmin):
+
     list_display = [
         "title",
         "title_len",

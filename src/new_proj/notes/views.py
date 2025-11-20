@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, HttpResponse
 from notes.models import Notes, TextBlock
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.http import require_http_methods
 
 
 # Create your views here.
@@ -14,33 +14,59 @@ def notes_page(request):
     notes = Notes.objects.all()
     return render(request, "notes.html", context={"notes": notes})
 
-def note_page(request, id):
-    note = get_object_or_404(Notes, pk=id)
-    return render(request, "note.html", context={"note": note})
-
-@ensure_csrf_cookie
-def note_content(request, note_id):
+def note_page(request, note_id):
     note = get_object_or_404(Notes, pk=note_id)
     text_blocks = TextBlock.objects.filter(note=note)
-    return render(request, "note.html", context={"note": note, "text_blocks": text_blocks})
+    return render(request, "note.html", context={
+        "note": note,
+        "text_blocks": text_blocks
+    })
 
-@ensure_csrf_cookie
+
 def add_text_block(request, note_id):
-    note = get_object_or_404(Notes, pk=note_id)
-    text_block = TextBlock.objects.create(note=note, content="")
-    return render(request, "text_block.html", context={"text_block": text_block})
+    if request.method == 'POST':
+        note = get_object_or_404(Notes, pk=note_id)
+        new_block = TextBlock.objects.create(
+            note=note, 
+            content=''
+        )
+        context = {
+            'note': note,
+            'new_block': new_block
+        }
+        return render(request, '_text_block.html', context)
+    return HttpResponse(status=405)
 
-@ensure_csrf_cookie
-def update_text_block(request, block_id):
-    if request.method == "POST":
-        text_block = get_object_or_404(TextBlock, pk=block_id)
-        text_block.content = request.POST.get("content", "")
-        text_block.save()
-        return render(request, "text_block.html", context={"text_block": text_block})
-    return HttpResponse(status=400)
+def update_block(request, block_id):
+    if request.method == 'POST' and request.content_type == 'text/plain':
+        try:
+            block = get_object_or_404(TextBlock, pk=block_id)
+            new_content = request.body.decode('utf-8').strip() 
 
-@ensure_csrf_cookie
-def delete_text_block(request, block_id):
-    text_block = get_object_or_404(TextBlock, pk=block_id)
-    text_block.delete()
-    return HttpResponse(status=204)
+            if new_content == '':
+                block.content = '' 
+            else:
+                block.content = new_content
+            
+            block.save()
+            return HttpResponse(status=204) 
+
+        except Exception as e:
+            return HttpResponse(status=500, content=f"Error: {e}")
+            
+    return HttpResponse(status=405)
+
+@require_http_methods(["DELETE"])
+def delete_block(request, block_id):
+    try:
+        block = TextBlock.objects.get(pk=block_id)
+        note = block.note
+        if TextBlock.objects.filter(note=note).count() > 1:
+            block.delete()
+            return HttpResponse('', status=200, content_type='text/html')
+        else:
+            block.content = ''
+            block.save()
+            return HttpResponse('', status=200, content_type='text/html')
+    except (TextBlock.DoesNotExist, Notes.DoesNotExist):
+        return HttpResponse(status=404)
