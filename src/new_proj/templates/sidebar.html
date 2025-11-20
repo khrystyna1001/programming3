@@ -1,13 +1,14 @@
 {% load static %}
     <div class="d-flex" id="wrapper">
-        {% url 'notes_page' as notes %}
+        {% url 'notes_list' as notes %}
+        {% url 'note_create' as create_note %}
         {% url 'profile' as profile %}
         <!-- Sidebar-->
         <div class="border-end bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div>
             <div class="list-group list-group-flush">
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{{ notes }}">Dashboard</a>
-                <a class="list-group-item list-group-item-action list-group-item-light p-3">Make Note</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{{ create_note }}">Make Note</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3">Overview</a>
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{{ profile }}">Profile</a>
             </div>

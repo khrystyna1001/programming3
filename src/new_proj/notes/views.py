@@ -1,6 +1,9 @@
 from django.shortcuts import render, get_object_or_404, HttpResponse
 from notes.models import Notes
-
+from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.http import QueryDict
 
 # Create your views here.
 def home_page(request):
@@ -9,31 +12,35 @@ def home_page(request):
 def user_page(request):
     return render(request, "profile.html")
 
-def notes_page(request):
-    notes = Notes.objects.all()
-    return render(request, "notes.html", context={"notes": notes})
+class NotesListView(ListView):
+    model = Notes
+    context_object_name = "notes"
+    template_name = "notes.html"
 
-def note_page(request, note_id):
-    note = get_object_or_404(Notes, pk=note_id)
-        
-    return render(request, "note.html", context={
-        "note": note,
-    })
+class NoteDetailView(DetailView):
+    model = Notes
+    context_object_name = "note"
+    template_name = "note.html"
 
-def update_note(request, note_id):
-    if request.method == 'POST':
-        try:
-            note = get_object_or_404(Notes, pk=note_id)
-            new_content = request.body.decode('utf-8').strip()
-            
-            if new_content:
-                note.content = new_content
-                note.save()
-                return HttpResponse(status=204)
-            else:
-                return HttpResponse(status=400)
-                
-        except Exception as e:
-            return HttpResponse(status=500, content=f"Error: {e}")
-    
-    return HttpResponse(status=405)
+class NotesCreateView(CreateView):
+    model = Notes
+    fields = ["title", "content"]
+    template_name = "create_note.html"
+    success_url = "/notes/"
+
+
+class NotesUpdateView(UpdateView):
+    model = Notes
+    fields = ["title", "content"]
+    template_name = "note.html"
+    context_object_name = "note"
+    success_url = "/notes/"
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.method == 'PATCH':
+            request.POST = QueryDict(request.body.decode('utf-8'))
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        self.object = form.save()
+        return HttpResponse(status=204)

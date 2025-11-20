@@ -1,52 +1,52 @@
 {% extends "authorized.html" %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block content %}
 
-<div class="card-header p-3">
-  {{ note.title }}
-</div>
+<div class="container py-4"> 
 
-<div class="card-body p-4"
-    hx-post="{% url 'update_note' note.id %}"
-    hx-trigger="blur"
+    <form method="post" class="card shadow-lg border-0" 
+    hx-post="{% url 'note_update' note.id %}" 
     hx-swap="none"
->
-  <blockquote class="blockquote mb-0">
-    <div id="note-blocks">
+    hx-trigger="submit"> {% csrf_token %}
+
+        <div class="p-4 pb-3 bg-light-subtle border-bottom"> 
+            {{ form.title|attr:"rows:2"|attr:"placeholder:Note Title"|add_class:"form-control border-0 bg-dark-subtle fs-5 fw-bold" }}
+        </div>
+
+        <div class="card-body p-4 pt-4"> <blockquote class="blockquote mb-0">
+                <div id="note-blocks">
+                    <div id="note-content-div" 
+                        class="note-wrapper fs-5" 
+                        contenteditable="true"
+                        name="content" data-note-id="{{ note.id }}"
+                        style="min-height: 250px; outline: none; border: none; background-color: white;" > 
+                        
+                        {{ form.content|default:"Start typing your note here..."|add_class:"form-control border-0 bg-dark-subtle fs-5" }} 
+                        
+                    </div>
+                </div>
+            </blockquote>
+        </div>
+        
+        <div class="card-footer bg-white border-0 p-3">
+            <div class="d-flex justify-content-end">
+                <button 
+                  type="submit"
+                  hx-include="#note-content-div"
+                  class="btn btn-success shadow-sm">
+                    <i class="bi bi-save"></i> Save Changes
+                </button>
+            </div>
+        </div>
+    </form>
     
-    <div class="note-wrapper">
-      <div id="note-{{ note.id }}" 
-          class="text-block" 
-          contenteditable="true" 
-          data-note-id="{{ note.id }}"
-          hx-post="{% url 'update_note' note.id %}" 
-          hx-trigger="input changed delay:500ms"
-          hx-swap="none">
-        <p>{{ note.content|default:"Edit this note..." }}</p>
-      </div>
-    </div>
-    </div>
-    <div class="mt-3">
-      <button class="btn btn-outline-secondary" 
-      hx-post="{% url 'update_note' note.id %}" 
-      hx-trigger="click"
-      hx-swap="none"
-      hx-target="#note-{{ note.id }}">
-        Save Text
-      </button>
-      
-      <button class="btn btn-outline-secondary">+ Image</button>
+    <div class="mt-3 text-end">
+        <footer class="blockquote-footer">
+            Last Updated: <cite title="Updated At">[{{ note.updated_at|date:"M d, Y H:i" }}]</cite>
+        </footer>
     </div>
     
-    <br />
-    <footer class="blockquote-footer">
-      Created At <cite title="Created At">[{{ note.created_at|date:"M d, Y H:i" }}]</cite>
-      {% if note.updated_at and note.updated_at != note.created_at %}
-        <br />
-        Updated At <cite title="Updated At">[{{ note.updated_at|date:"M d, Y H:i" }}]</cite>
-      {% endif %}
-    </footer>
-  </blockquote>
 </div>
 {% endblock %}
