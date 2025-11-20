@@ -18,7 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
-from notes.views import user_page, home_page, add_text_block, update_block, notes_page, note_page, delete_block
+from notes.views import user_page, home_page, notes_page, note_page, update_note
 
 urlpatterns = [
     path("", home_page, name='home'),
@@ -26,11 +26,7 @@ urlpatterns = [
 
     path("notes/", notes_page, name='notes_page'),
     path("notes/<int:note_id>/", note_page, name='note_detail'),
-    path('notes/<int:note_id>/add_text_block/', add_text_block, name='add_text_block'),
-    # path('notes/<int:note_id>/get_blocks/', get_note_blocks, name='get_note_blocks'),
-
-    path('block/<int:block_id>/update/', update_block, name='update_block'),
-    path('block/<int:block_id>/delete/', delete_block, name='delete_block'),
+    path('notes/<int:note_id>/update/', update_note, name='update_note'),
 
     path("admin/", admin.site.urls),
     path("", include("django.contrib.auth.urls"))
