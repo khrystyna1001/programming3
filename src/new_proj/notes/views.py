@@ -1,11 +1,17 @@
-from django.shortcuts import render, get_object_or_404, HttpResponse
+from django.shortcuts import render
 from notes.models import Notes
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.http import QueryDict
+from django_htmx.http import HttpResponseClientRedirect
+
 
 # Create your views here.
+
+def redirect_view():
+    return HttpResponseClientRedirect("notes.html")
+
 def home_page(request):
     return render(request, "home.html")
 
@@ -41,9 +47,15 @@ class NotesUpdateView(UpdateView):
             request.POST = QueryDict(request.body.decode('utf-8'))
         return super().dispatch(request, *args, **kwargs)
 
+    def get_success_url(self):
+        return redirect_view()
+
 
 class NotesDeleteView(DeleteView):
     model = Notes
     template_name = "note.html"
     context_object_name = "note"
     success_url = '/notes/'
+
+    def get_success_url(self):
+        return redirect_view()

@@ -153,6 +153,8 @@ STATICFILES_DIRS = [
 
 LOGIN_REDIRECT_URL = "/"
 
+ALLOWED_HTTP_METHODS = ['GET', 'POST', 'PATCH', 'DELETE']
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
