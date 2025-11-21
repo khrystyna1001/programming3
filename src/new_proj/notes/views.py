@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, HttpResponse
 from notes.models import Notes
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.http import QueryDict
@@ -26,7 +26,7 @@ class NotesCreateView(CreateView):
     model = Notes
     fields = ["title", "content"]
     template_name = "create_note.html"
-    success_url = "/notes/"
+    success_url = '/notes/'
 
 
 class NotesUpdateView(UpdateView):
@@ -34,13 +34,16 @@ class NotesUpdateView(UpdateView):
     fields = ["title", "content"]
     template_name = "note.html"
     context_object_name = "note"
-    success_url = "/notes/"
+    success_url = '/notes/'
 
     def dispatch(self, request, *args, **kwargs):
         if request.method == 'PATCH':
             request.POST = QueryDict(request.body.decode('utf-8'))
         return super().dispatch(request, *args, **kwargs)
 
-    def form_valid(self, form):
-        self.object = form.save()
-        return HttpResponse(status=204)
+
+class NotesDeleteView(DeleteView):
+    model = Notes
+    template_name = "note.html"
+    context_object_name = "note"
+    success_url = '/notes/'
