@@ -3,14 +3,11 @@ from notes.models import Notes
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.http import QueryDict
 from django_htmx.http import HttpResponseClientRedirect
+from notes.forms import NotesForm
 
 
 # Create your views here.
-
-def redirect_view():
-    return HttpResponseClientRedirect("notes.html")
 
 def home_page(request):
     return render(request, "home.html")
@@ -18,44 +15,73 @@ def home_page(request):
 def user_page(request):
     return render(request, "profile.html")
 
-class NotesListView(ListView):
-    model = Notes
-    context_object_name = "notes"
+
+def notes_listing(request):
     template_name = "notes.html"
+    if request.htmx:
+        template_name += "#notes-table"
 
-class NoteDetailView(DetailView):
-    model = Notes
-    context_object_name = "note"
+    notes = Notes.objects.all()
+
+    return render(
+        request,
+        template_name,
+        {
+            "notes": notes,
+        },
+    )
+
+def note_detail(request, pk):
     template_name = "note.html"
+    if request.htmx:
+        template_name += "#card-body"
 
-class NotesCreateView(CreateView):
-    model = Notes
-    fields = ["title", "content"]
+    note = Notes.objects.get(pk=pk)
+
+    return render(
+        request,
+        template_name,
+        {
+            "note": note,
+        },
+    )
+
+def note_create(request):
     template_name = "create_note.html"
-    success_url = '/notes/'
+    if request.htmx:
+        template_name += "#note-form"
 
+    return render(
+        request,
+        template_name,
+    )
 
-class NotesUpdateView(UpdateView):
-    model = Notes
-    fields = ["title", "content"]
+def note_update(request, pk):
     template_name = "note.html"
-    context_object_name = "note"
-    success_url = '/notes/'
+    if request.htmx:
+        template_name += "#note-form"
 
-    def dispatch(self, request, *args, **kwargs):
-        if request.method == 'PATCH':
-            request.POST = QueryDict(request.body.decode('utf-8'))
-        return super().dispatch(request, *args, **kwargs)
+    note = Notes.objects.get(pk=pk)
 
-    def get_success_url(self):
-        return redirect_view()
+    return render(
+        request,
+        template_name,
+        {
+            "note": note,
+        },
+    )
 
-
-class NotesDeleteView(DeleteView):
-    model = Notes
+def note_delete(request, pk):
     template_name = "note.html"
-    context_object_name = "note"
-    success_url = '/notes/'
+    if request.htmx:
+        template_name += "#note-form"
 
-    def get_success_url(self):
-        return redirect_view()
+    note = Notes.objects.get(pk=pk)
+
+    return render(
+        request,
+        template_name,
+        {
+            "note": note,
+        },
+    )

@@ -18,17 +18,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
-from notes.views import user_page, home_page, NotesCreateView, NotesUpdateView, NotesListView, NotesDeleteView, NoteDetailView
+from notes.views import user_page, home_page, notes_listing, note_detail, note_create, note_update, note_delete
 
 urlpatterns = [
     path("", home_page, name='home'),
     path("profile/", user_page, name='profile'),
 
-    path('notes/', NotesListView.as_view(), name='notes_list'), 
-    path('notes/<int:pk>/', NoteDetailView.as_view(), name='note_detail'), 
-    path('notes/create/', NotesCreateView.as_view(), name='note_create'),
-    path('notes/<int:pk>/update/', NotesUpdateView.as_view(), name='note_update'),
-    path('notes/<int:pk>/delete/', NotesDeleteView.as_view(), name='note_delete'),
+    path('notes/', notes_listing, name='notes_list'), 
+    path('notes/<int:pk>/', note_detail, name='note_detail'), 
+    path('notes/create/', note_create, name='note_create'),
+    path('notes/<int:pk>/update/', note_update, name='note_update'),
+    path('notes/<int:pk>/delete/', note_delete, name='note_delete'),
 
     path("admin/", admin.site.urls),
     path("", include("django.contrib.auth.urls"))
